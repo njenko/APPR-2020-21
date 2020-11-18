@@ -5,11 +5,23 @@ Repozitorij z gradivi pri predmetu APPR v študijskem letu 2020/21
 * [![Shiny](http://mybinder.org/badge.svg)](http://mybinder.org/v2/gh/njenko/APPR-2020-21/master?urlpath=shiny/APPR-2020-21/projekt.Rmd) Shiny
 * [![RStudio](http://mybinder.org/badge.svg)](http://mybinder.org/v2/gh/njenko/APPR-2020-21/master?urlpath=rstudio) RStudio
 
-## Tematika
+## Analiza borznih indeksov
 
-Izbrali si boste temo, s katero se bo vaš projekt ukvarjal.
-Tukaj boste napisali, kje ste dobili podatke, ter kakšen je vaš cilj.
+Analiziral bom borzne indekse desetih velikih svetovnih borz (TSX, NYSE, NASDAQ, DAX, AEX, SSE, IBOVESPA, N225, ASX, SBITOP). Zanimala me bo rast indeksov gelde na časovno obdobje in rast v primerjavi z ostalimi borzami. Ker so borze izbrane na različnih koncih sveta, lahko podatke vizualiziram tudi z zemljevidom. 
+V tabelah bo do za vsako borzo mesečni podatki o indeksu ob odprtju, indeksu ob zaprtju, najvišji indeks v mesecu in najnižji indeks v mesecu. Te tabele bom potem združil v eno, kjer je ime borze še ena spremenljivka. 
 
+Viri podatkov: 
+  * TSX(Toronto, Canada): https://ca.finance.yahoo.com/quote/%5EGSPTSE/history?p=%5EGSPTSE
+  * NYSE(New York, USA): https://finance.yahoo.com/quote/%5ENYA/history?p=%5ENYA
+  * NASDAQ(New York, USA): https://finance.yahoo.com/quote/%5EIXIC/history?p=%5EIXIC
+  * DAX(Frankfurt, Germany): https://finance.yahoo.com/quote/%5EGDAXI?p=%5EGDAXI
+  * AEX(Amsterdam, Netherlands): https://finance.yahoo.com/quote/^AEX?p=^AEX&.tsrc=fin-srch
+  * SSE(Shanghai, China): https://finance.yahoo.com/quote/000001.SS/history?p=000001.SS
+  * IBOVESPA(Sao Paolo, Brasil): https://finance.yahoo.com/quote/^BVSP?p=^BVSP&.tsrc=fin-srch
+  * N225(Osaka, Japan): https://finance.yahoo.com/quote/^N225?p=^N225&.tsrc=fin-srch
+  * ASX(Sidney, Australia): https://finance.yahoo.com/quote/%5EAXJO/history?p=%5EAXJO
+  * SBITOP(Ljubljana, Slovenia): https://ljse.si/en/indices-43/42
+  
 ## Program
 
 Glavni program in poročilo se nahajata v datoteki `projekt.Rmd`.
