@@ -10,6 +10,23 @@ Repozitorij z gradivi pri predmetu APPR v študijskem letu 2020/21
 Analiziral bom borzne indekse desetih velikih svetovnih borz (TSX, NYSE, NASDAQ, DAX, AEX, SSE, IBOVESPA, N225, ASX, SBITOP). Zanimala me bo rast indeksov gelde na časovno obdobje in rast v primerjavi z ostalimi borzami. Ker so borze izbrane na različnih koncih sveta, lahko podatke vizualiziram tudi z zemljevidom. 
 V tabelah bo do za vsako borzo mesečni podatki o indeksu ob odprtju, indeksu ob zaprtju, najvišji indeks v mesecu in najnižji indeks v mesecu. Te tabele bom potem združil v eno, kjer je ime borze še ena spremenljivka. 
 
+Tabele:
+  * Informacije za posamezno borzo:
+    * indeks ob odprtju
+    * najvišji indeks
+    * najnižji indeks
+    * indeks ob zaprtju
+    * volumen
+    
+  *Tabela vseh borz:
+    * Ime borze
+    * Lokacija borze
+    
+  *Dogodki v letu 2020:
+    * Datum
+    * Dogodek
+    
+
 Viri podatkov: 
   * TSX(Toronto, Canada): https://ca.finance.yahoo.com/quote/%5EGSPTSE/history?p=%5EGSPTSE
   * NYSE(New York, USA): https://finance.yahoo.com/quote/%5ENYA/history?p=%5ENYA
