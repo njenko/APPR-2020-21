@@ -18,11 +18,11 @@ Tabele:
     * indeks ob zaprtju
     * volumen
     
-  *Tabela vseh borz:
+  * Tabela vseh borz:
     * Ime borze
     * Lokacija borze
     
-  *Dogodki v letu 2020:
+  * Dogodki v letu 2020:
     * Datum
     * Dogodek
     
