@@ -37,7 +37,7 @@ Viri podatkov:
   * IBOVESPA(Sao Paolo, Brasil): https://finance.yahoo.com/quote/^BVSP?p=^BVSP&.tsrc=fin-srch
   * N225(Osaka, Japan): https://finance.yahoo.com/quote/^N225?p=^N225&.tsrc=fin-srch
   * ASX(Sidney, Australia): https://finance.yahoo.com/quote/%5EAXJO/history?p=%5EAXJO
-  * SBITOP(Ljubljana, Slovenia): https://ljse.si/en/indices-43/42
+  * FTSE 250(London, United Kingdom): https://ljse.si/en/indices-43/42
   
 ## Program
 
