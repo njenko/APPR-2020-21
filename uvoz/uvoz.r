@@ -8,11 +8,11 @@ library(readr)
 uvozi.indekse <- function(tabelaIndeksov, kraticaBorze) {
   data <- read_csv(tabelaIndeksov, col_names = TRUE,
                     locale=locale(encoding="Windows-1250")) %>% 
-    mutate(Name = kraticaBorze, Growth = "1") %>%
+    mutate(Name = kraticaBorze, Growth = 100 * (Close - Open) / Open) %>%
     slice(-13)
     
     
-  data <- data[c(1, 8, 2, 3, 4, 5, 6, 7)]
+  data <- data[c(1, 8, 2, 3, 4, 5, 6, 7, 9)]
   return(data)
 }
 
