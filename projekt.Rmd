@@ -26,7 +26,7 @@ source("lib/rstudio.r", encoding="UTF-8")
 
 Za vzorec bomo prikazali nekaj podatkov o slovenskih občinah.
 
-![](slike/grb.png)
+![](slike/two-growth-stocks-to-buy-now.png)
 
 ***
 

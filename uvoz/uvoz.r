@@ -10,8 +10,6 @@ uvozi.indekse <- function(tabelaIndeksov, kraticaBorze) {
                     locale=locale(encoding="Windows-1250")) %>% 
     mutate(Name = kraticaBorze, Growth = 100 * (Close - Open) / Open) %>%
     slice(-13)
-    
-    
   data <- data[c(1, 8, 2, 3, 4, 5, 6, 7, 9)]
   return(data)
 }
