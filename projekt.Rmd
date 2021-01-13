@@ -37,15 +37,25 @@ source("uvoz/uvoz.r", encoding="UTF-8")
 
 Uvozili smo 10 tabel s podatki za posamezno borzo. Podatki so v obliki csv, prenešeni iz spletne strani Yahoo Finance. 
 
-1. `Date` - Datum opravljenih meritev (meritve so opravljene od 1. 1. 2020 tedensko) - tip podatka: date,
+1. **TABELE POSAMEZNIH  BORZ**
+  - `Date` - Datum opravljenih meritev (meritve so opravljene od 1. 1. 2020 tedensko) - tip podatka: date,
   - `Name` - Kratica borze, za katero so prikazani podatki - tip podatka: character,
-  - `Open` - Vrednost indeksa ob odprtju borze na prvi dan tedna - tip podatka: numeric
-  - `High` - Najvišja vrednost indeksa v opazovanem tednu - tip podatka: numeric
-  - `Low` - Najnižja vrednost indeksa v opazovanem tednu - tip podatka: numeric
-  - `Close` - Vrednost indeksa ob zaprtju borze na zadnji dan tedna - tip podatka: numeric
-  - `Volume` - Količina izmenjanih delnic v opazovanem obdobju v lokalni denarni enoti - tip podatka: numeric
+  - `Open` - Vrednost indeksa ob odprtju borze na prvi dan tedna - tip podatka: numeric,
+  - `High` - Najvišja vrednost indeksa v opazovanem tednu - tip podatka: numeric,
+  - `Low` - Najnižja vrednost indeksa v opazovanem tednu - tip podatka: numeric,
+  - `Close` - Vrednost indeksa ob zaprtju borze na zadnji dan tedna - tip podatka: numeric,
+  - `Volume` - Količina izmenjanih delnic v opazovanem obdobju v lokalni denarni enoti - tip podatka: numeric,
+  - `Growth` - Rast indeksa v danem obdobju, izračunan iz vrednosti indeksa ob odprtju in zaprtju - tip podatka: numeric
 
-2. `obcine` - podatki o občinah
+Lahko vidimo,da te podatki še niso v obliki *tidy data*. V takšno obliko jih bomo dali, šele, ko te tabele združimo. Z operacijo *bind_rows* smo združili vseh 10 tabel v eno in jo nato spremenili v obliko *tidy data*, da smo dobili novo tabelo:
+
+2. **SKUPNA TABELA Z VSEMI BORZAMI**
+ - `Date` - Datum opravljenih meritev (meritve so opravljene od 1. 1. 2020 tedensko) - tip podatka: date,
+ - `Name` - Kratica borze, za katero so prikazani podatki - tip podatka: character,
+ - `Measurement_type`- Nam pove katera meritev je prikazana v zadnji vrstici tabele - tip podatka: character,
+ - `Measurement` - Meritev - tip podatka: numeric.
+
+3. `obcine` - podatki o občinah
   - `obcina` - spremenljivka: ime občine (neurejen faktor),
   - `povrsina` - meritev: površina občine v km$^2$ (število),
   - `prebivalci` - meritev: prebivalstvo občine (število),
