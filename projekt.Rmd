@@ -23,7 +23,7 @@ source("lib/rstudio.r", encoding="UTF-8")
 
 # Izbira teme
 
-Opazovali bomo 10 borznih indeksov v letu 2020 in analizirali njihovo gibanje.
+Opazovali bomo 10 borznih indeksov v letu 2020 in analizirali njihovo odvisnost.
 
 ![](slike/two-growth-stocks-to-buy-now.png)
 
@@ -35,13 +35,15 @@ Opazovali bomo 10 borznih indeksov v letu 2020 in analizirali njihovo gibanje.
 source("uvoz/uvoz.r", encoding="UTF-8")
 ```
 
-Uvozili smo podatke o občinah v obliki CSV s statističnega urada ter v obliki HTML
-z Wikipedije. Podatke imamo v dveh razpredelnicah v obliki *tidy data*.
+Uvozili smo 10 tabel s podatki za posamezno borzo. Podatki so v obliki csv, prenešeni iz spletne strani Yahoo Finance. 
 
-1. `druzine` - podatki o družinah za vsako občino
-  - `obcina` - spremenljivka: ime občine (neurejen faktor),
-  - `velikost.druzine` - spremenljivka: število otrok v družini (število: 1, 2, 3 ali 4, kjer zadnja vrednost pomeni 4 ali več),
-  - `stevilo.druzin` - meritev: število družin z ustreznim številom otrok v ustrezni občini (število).
+1. `Date` - Datum opravljenih meritev (meritve so opravljene od 1. 1. 2020 tedensko) - tip podatka: date,
+  - `Name` - Kratica borze, za katero so prikazani podatki - tip podatka: character,
+  - `Open` - Vrednost indeksa ob odprtju borze na prvi dan tedna - tip podatka: numeric
+  - `High` - Najvišja vrednost indeksa v opazovanem tednu - tip podatka: numeric
+  - `Low` - Najnižja vrednost indeksa v opazovanem tednu - tip podatka: numeric
+  - `Close` - Vrednost indeksa ob zaprtju borze na zadnji dan tedna - tip podatka: numeric
+  - `Volume` - Količina izmenjanih delnic v opazovanem obdobju v lokalni denarni enoti - tip podatka: numeric
 
 2. `obcine` - podatki o občinah
   - `obcina` - spremenljivka: ime občine (neurejen faktor),
