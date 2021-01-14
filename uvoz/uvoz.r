@@ -48,6 +48,7 @@ uvozi.borze <- function() {
   tabela$Market_cap <- as.numeric(gsub(",",".",tabela$Market_cap))
   tabela$Monthly_volume <- as.numeric(gsub(",",".",tabela$Monthly_volume))
   
+  
   return(tabela)
   
 }
@@ -66,7 +67,7 @@ ASX <- uvozi.indekse("podatki/S&P-ASX 200.csv", "ASX")
 FTSE <- uvozi.indekse("podatki/FTSE 250.csv", "FTSE")
 
 
-skupnaTabela <- bind_rows(TSX, NYSE, NASDAQ, DAX, ASX, SSE, IBOVESPA, N225, ASX, FTSE)
+skupnaTabela <- bind_rows(NYSE, NASDAQ, N225, FTSE, SSE, AEX, TSX,  DAX, ASX, IBOVESPA)
 
 #spremenimo v obliko tidy data
 

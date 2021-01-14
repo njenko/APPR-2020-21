@@ -64,9 +64,6 @@ Lahko vidimo,da te podatki še niso v obliki *tidy data*. V takšno obliko jih b
   - `Monthly_volume` - meritev: leto ustanovitve občine (število),
   
 
-
-Spodnji graf prikazuje porazdelitev števila naselij v občinah.
-
 ```{r histogram, fig.align='center', fig.cap='Histogram števila naselij v občinah'}
 #ggplot(obcine, aes(x=naselja)) + geom_histogram() +
   #ggtitle("Pogostost števila naselij") + xlab("Število naselij") + ylab("Število občin")
