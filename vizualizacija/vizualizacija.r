@@ -1,31 +1,24 @@
 # 3. faza: Vizualizacija podatkov
 
-# Uvozimo zemljevid.
-#zemljevid <- uvozi.zemljevid("http://baza.fmf.uni-lj.si/OB.zip", "OB",
-                             #pot.zemljevida="OB", encoding="Windows-1250")
-# Če zemljevid nima nastavljene projekcije, jo ročno določimo
-#proj4string(zemljevid) <- CRS("+proj=utm +zone=10+datum=WGS84")
-
-#levels(zemljevid$OB_UIME) <- levels(zemljevid$OB_UIME) %>%
-  #{ gsub("Slovenskih", "Slov.", .) } %>% { gsub("-", " - ", .) }
-#zemljevid$OB_UIME <- factor(zemljevid$OB_UIME, levels=levels(obcine$obcina))
-
-# Izračunamo povprečno velikost družine
-#povprecja <- druzine %>% group_by(obcina) %>%
-  #summarise(povprecje=sum(velikost.druzine * stevilo.druzin) / sum(stevilo.druzin))
-
-ggplot(data=skupnaTabela %>% filter(Measurement_Type == "Growth", Name %in% c("NYSE", "NASDAQ", "N225", "FTSE", "SSE", "AEX", "TSX",  "DAX", "ASX", "IBOVESPA")), aes(x=Date, y=Measurement, color=Name)) + geom_line()
-
-ggplot(data=skupnaTabela %>% filter(Measurement_Type %in% c("Open", "High", "Low"), Name == "NYSE"), aes(x=Date, y=Measurement, fill = Measurement_Type)) + geom_col(position = "dodge")
+library(ggplot2)
 
 
-Mapa_sveta <- map_data("world") %>% select(c(1:5))
+graf1 <- ggplot(data=skupnaTabela %>% filter(Measurement_Type == "Growth", Name %in% c("NYSE", "NASDAQ", "N225", "FTSE", "SSE", "AEX", "TSX",  "DAX", "ASX", "IBOVESPA")), aes(x=Date, y=Measurement, color=Name)) + geom_line()
 
-zemljevid_rasti <- right_join(svetovna_rast, Mapa_sveta, by = "region")
+graf2 <- ggplot(data=skupnaTabela %>% filter(Measurement_Type %in% c("Open", "High", "Low"), Name == "NYSE"), aes(x=Date, y=Measurement, fill = Measurement_Type)) + geom_col(position = "dodge")
+
+graf3 <- ggplot(data=skupnaTabela %>% filter(Measurement_Type == "Volume", Date == "2020-01-01"), aes(x=Name, y=Measurement)) + geom_col()
+
+grafMapa_sveta <- map_data("world") %>% select(c(1:5))
+
+zemljevid_rasti <- right_join(svetovna_rast  %>% filter(Date == "2020-03-01"), Mapa_sveta, by = "region")
+
+svetovna_rast$region <- gsub(svetovna_rast$region[37:48], "UK", svetovna_rast$region)
+svetovna_rast$region <- gsub("United States", "USA", svetovna_rast$region)
 
 cplot <- ggplot(zemljevid_rasti, aes(x =long,y= lat, group = group, fill=Measurement))+  
-  geom_polygon(color="red") + 
-  theme_void() + coord_equal() + labs(fill="Vrednost tržne kapitalizacije") + 
+  geom_polygon(color="white") + 
+  theme_void() + coord_equal() + labs(fill="Growth") + 
   theme(legend.position="bottom")
 
 

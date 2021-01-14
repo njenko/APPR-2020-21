@@ -7,6 +7,7 @@ output:
     includes:
       in_header: lib/styles.sty
     latex_engine: xelatex
+  runtime: shiny
 ---
 
 ```{r setup, echo=FALSE, results='hide', message=FALSE, warning=FALSE}
@@ -23,7 +24,7 @@ source("lib/rstudio.r", encoding="UTF-8")
 
 # Izbira teme
 
-Opazovali bomo 10 borznih indeksov v letu 2020 in analizirali njihovo odvisnost.
+Opazovali bomo 10 borznih indeksov v letu 2020 in analizirali njihovo odvisnost ter  poskusili  najti korelacijo z dogodki v letu 2020.
 
 ![](slike/two-growth-stocks-to-buy-now.png){width=50%}
 
@@ -38,12 +39,12 @@ source("uvoz/uvoz.r", encoding="UTF-8")
 Uvozili smo 10 tabel s podatki za posamezno borzo. Podatki so v obliki csv, prenešeni iz spletne strani Yahoo Finance. Tabelo z informacijami o borzah pa smo uvozili v obliki HTML iz Wikipedije.
 
 1. **TABELE POSAMEZNIH  BORZ**
-  - `Date` - Datum opravljenih meritev (meritve so opravljene od 1. 1. 2020 tedensko) - tip podatka: date,
+  - `Date` - Datum opravljenih meritev (meritve so opravljene od 1. 1. 2020 mesečno) - tip podatka: date,
   - `Name` - Kratica borze, za katero so prikazani podatki - tip podatka: character,
-  - `Open` - Vrednost indeksa ob odprtju borze na prvi dan tedna - tip podatka: numeric,
-  - `High` - Najvišja vrednost indeksa v opazovanem tednu - tip podatka: numeric,
-  - `Low` - Najnižja vrednost indeksa v opazovanem tednu - tip podatka: numeric,
-  - `Close` - Vrednost indeksa ob zaprtju borze na zadnji dan tedna - tip podatka: numeric,
+  - `Open` - Vrednost indeksa ob odprtju borze na prvi dan meseca - tip podatka: numeric,
+  - `High` - Najvišja vrednost indeksa v opazovanem mesecu - tip podatka: numeric,
+  - `Low` - Najnižja vrednost indeksa v opazovanem mesecu - tip podatka: numeric,
+  - `Close` - Vrednost indeksa ob zaprtju borze na zadnji dan meseca - tip podatka: numeric,
   - `Volume` - Količina izmenjanih delnic v opazovanem obdobju v lokalni denarni enoti - tip podatka: numeric,
   - `Growth` - Rast indeksa v danem obdobju, izračunan iz vrednosti indeksa ob odprtju in zaprtju - tip podatka: numeric
 
@@ -77,23 +78,64 @@ Lahko vidimo,da te podatki še niso v obliki *tidy data*. V takšno obliko jih b
 #source("vizualizacija/vizualizacija.r", encoding="UTF-8")
 ```
 
-Na spodnjem grafu lahko vidimo rast indeksov skozi prejšnje leto. Večino časa se gibljejo razmeroma podobno. Zelo hitro lahko opazimo največji padec v mesecu marcu, ki ga je povzročil prvi val koronavirusa. Vidimo lahko tudi, da se je  indeks zelo hitro pobral in celo močno narastel nad vrednost pred krizo. Ponoven padec lahko vidimo v septembru in novembru, ko je prišel drugi val virusa. Prav tako so se indeksi zelo hitro povzpeli nazaj na vrednosti po prvem valu.
+Na spodnjem grafu lahko vidimo rast indeksov skozi prejšnje leto. Večino časa se gibljejo razmeroma podobno. Zelo hitro lahko opazimo največji padec v mesecu marcu, ki ga je povzročil prvi val koronavirusa. Vidimo lahko tudi, da se je  indeks zelo hitro pobral in celo močno narastel nad vrednost pred krizo. Ponoven padec lahko vidimo v septembru in novembru, ko je prišel drugi val virusa. Prav tako so se indeksi zelo hitro povzpeli nazaj na vrednosti po prvem valu. Lahko opazimo  tudi da je  edini indeks, ki se giblje drugače kot ostali je indeks SSE, ki predstavlja indeks borze v Shanghaju. To je razumljivo, saj vemo, da je korona kriza na Kitajskem časovno potekala drugače kot drugod po svetu. Prav tako lahko opazimo odstopanje DAX indeksa v oktobru, ko je nemška vlada močno zaostrila protikoronske  ukrepe.
+
 
 ```{r}
-ggplot(data=skupnaTabela %>% filter(Measurement_Type == "Growth", Name %in% c("NYSE", "NASDAQ", "N225", "FTSE", "SSE", "AEX", "TSX",  "DAX", "ASX", "IBOVESPA")), aes(x=Date, y=Measurement, color=Name)) + geom_line()
+ggplot(data=skupnaTabela %>% filter(Measurement_Type == "Growth", Name %in% c("NYSE", "NASDAQ", "N225", "FTSE", "SSE", "AEX", "TSX",  "DAX", "ASX", "IBOVESPA")), aes(x=Date, y=Measurement, color=Name)) + geom_line() + ggtitle("Rast indeksov skozi leto 2020") + 
+  ylab("Rast v %") + xlab("Mesec")
 ```
+V  naslednjem grafu lahko vidimopodatke o indeksu New Yorške borze. Izpisani so podatki o vrednosti indeksa ob odprtju, na prvi dan meseca in o najvišji ter najnižji vrednisti indeksa v tem mesecu. S tem si lahko pomagamo razbrati  volatilnost trgaiz tega, kakšna razlika med najnižjo vrednostjo. Kot pričakovano se je največji padec zgodil v marcu. Zato lahko najdemo najnižjo Open vrednost v aprilu. V naslednjih nekaj mesecih lahko razberemo konstantno rast indeksa, saj je začetna vrednost zelo blizu najnižji, najvišja pa je precej večja. 
+Ob koncu leta lahko ponovno opazimo večjo volatilnost na  trgu saj se ponovno najvišja in najnižja vrednost močno razlikujeta od začetne.
+
 ```{r}
 ggplot(data=skupnaTabela %>% filter(Measurement_Type %in% c("Open", "High", "Low"), Name == "NYSE"), aes(x=Date, y=Measurement, fill = Measurement_Type)) + geom_col(position = "dodge") + 
    coord_flip() +
-   theme(legend.position = "top")
+   theme(legend.position = "top") + ggtitle("Vpogled v volatilnost trga borze NYSE") + 
+  ylab("Vrednost indeksa NYSE") + xlab("Mesec") + labs(fill = "Tip meritve") + 
+scale_fill_manual("legend", values = c("High" = "#9e66ab", "Low" = "#f9a65a", "Open" = "#599ad3"))
 
 ```
- 
+Da bomo lahko bolje razumeli te podatke si poglejmo še podatke o količini izmenjanih  vrednostnih papirjev na posamezni borzi. Zelo hitro lahko opazimo da močno prvladujeta obe New Yorški borzi, ki sta tudi  prva in drufa na svetu po prometu. Podatki so podani v domačih valutah, torej bi to moralo povečati vrednosti za borze izven območja evra in dolarja, vendar NASDAQ in NYSE še vedno povsem prekašata vse ostale borze.
 
-```{r zemljevid, fig.align='center', fig.cap='Zemljevid povprečnega števila otrok v družini'}
-#tm_shape(merge(zemljevid, povprecja, by.x="OB_UIME", by.y="obcina")) +
-#  tm_polygons("povprecje", title="Povprečje") +
-#  tm_layout(title="Povprečno število otrok v družini")
+```{r}
+ggplot(data=skupnaTabela %>% filter(Measurement_Type == "Volume", Date == "2020-01-01"), aes(x=Name, y=Measurement)) + geom_col(fill="#599ad3") + ggtitle("Količina izmenjanih vrednostnih papirjev [miljarde, v domači valuti]")+ ylab("Volumen") + xlab("Borze") 
+```
+
+V naslednjem prikazu sveta si lahko pogledamo rast indeksov v mesecu marcu. Kot pričakovano je na vzhodu padec precej manjši kot drugod po svetu, saj so se s krizo soočali že od začetka leta in jih je marčevski udarec prizadel manj kot ostale države, ki na pandemijo niso bile pripravljene. Največji upad lahko vidimo na brazilski borzi, saj  se večina največjih podjetji, katerih delnice upoštevamo pri indeksu borze v Sao Paolu ukvarja z pridelavo surovin kot so gorivo in železo, katerih poraba je v tem času močno updla. Lahko vidimo, da je vpliv na zahodni svet zelo podoben. Vrednosti indeksov so v večini držav Evrope in severni Ameriki upadle za 10-15%.
+ 
+```{r}
+Mapa_sveta <- map_data("world") %>% select(c(1:5))
+
+zemljevid_rasti <- right_join(svetovna_rast  %>% filter(Date == "2020-03-01"), Mapa_sveta, by = "region")
+
+svetovna_rast$region <- gsub(svetovna_rast$region[37:48], "UK", svetovna_rast$region)
+svetovna_rast$region <- gsub("United States", "USA", svetovna_rast$region)
+
+cplot <- ggplot(zemljevid_rasti, aes(x =long,y= lat, group = group, fill=Measurement))+  
+  geom_polygon(color="white") + 
+  theme_void() + coord_equal() + labs(fill="Growth") + 
+  theme(legend.position="bottom")
+
+
+cplot
+```
+
+```{r}
+Mapa_sveta <- map_data("world") %>% select(c(1:5))
+
+zemljevid_rasti <- right_join(svetovna_rast  %>% filter(Date == "2020-04-01"), Mapa_sveta, by = "region")
+
+svetovna_rast$region <- gsub(svetovna_rast$region[37:48], "UK", svetovna_rast$region)
+svetovna_rast$region <- gsub("United States", "USA", svetovna_rast$region)
+
+cplot <- ggplot(zemljevid_rasti, aes(x =long,y= lat, group = group, fill=Measurement))+  
+  geom_polygon(color="white") + 
+  theme_void() + coord_equal() + labs(fill="Growth") + 
+  theme(legend.position="bottom")
+
+
+cplot
 ```
 
 ***
