@@ -3,14 +3,15 @@
 library(dplyr)
 library(readr)
 library(tidyr)
+library(rvest)
 # Funkcija, ki uvozi podatke iz datotek z indeksi borz v formatu csv, ker so podatki loceni z vejico uporabimo read_csv in ne read_csv2
 # dodamo vrstico z imenom broze, da lahko nato tabele združimo v eno
 # odrežemo zadnjo vrstico
 uvozi.indekse <- function(tabelaIndeksov, kraticaBorze) {
   data <- read_csv(tabelaIndeksov, col_names=TRUE,
                     locale=locale(encoding="Windows-1250")) %>% 
-    mutate(Name = kraticaBorze, Growth = 100 * (Close - Open) / Open) #%>%
-  # slice(-13) če bom šel nazaj na mesečne podatke to dvoje odkomentiram
+    mutate(Name = kraticaBorze, Growth = 100 * (Close - Open) / Open) %>%
+  slice(-13) 
   data <- data[c(1, 8, 2, 3, 4, 5, 6, 7, 9)]
   data <- data[c(-7)]
   return(data)
@@ -29,14 +30,18 @@ uvozi.borze <- function() {
     }
   }
   
-  
-  colnames(tabela) <- c("1", "2", "Borza","Simbol", "Drzava", "Kraj",
+  colnames(tabela) <- c("1", "2", "Borza","Name", "region", "Kraj",
                         "Market_cap", "Monthly_volume",
                         "3", "4", "5", "6", "7",
                         "8", "9", "10")
   
   #Izbira pravilnih podatkov
   tabela <- tabela %>% select(3, 4, 5, 6, 7, 8) %>% slice(c(1, 2, 3, 4, 5, 7, 8, 12, 24, 26))
+  
+  #Preimenovanje simbolov
+  simboliBorz = c("NYSE", "NASDAQ", "N225", "FTSE", "SSE", "AEX", "TSX",  "DAX", "ASX", "IBOVESPA")
+  tabela <- tabela %>% mutate(Name = simboliBorz)
+  
   #tabela
   vrstice <- html_tabela %>% html_nodes(xpath=".//tr") %>% .[-1]
   borze <- vrstice %>% html_nodes(xpath="./td[3]") %>% html_text()
@@ -48,9 +53,7 @@ uvozi.borze <- function() {
   tabela$Market_cap <- as.numeric(gsub(",",".",tabela$Market_cap))
   tabela$Monthly_volume <- as.numeric(gsub(",",".",tabela$Monthly_volume))
   
-  
   return(tabela)
-  
 }
 
 seznamBorz <- uvozi.borze()
@@ -72,3 +75,5 @@ skupnaTabela <- bind_rows(NYSE, NASDAQ, N225, FTSE, SSE, AEX, TSX,  DAX, ASX, IB
 #spremenimo v obliko tidy data
 
 skupnaTabela <- skupnaTabela %>% pivot_longer(c(-Date, -Name), names_to="Measurement_Type", values_to="Measurement")
+
+svetovna_rast <- full_join(seznamBorz, skupnaTabela %>% filter(Measurement_Type == "Growth"), by = "Name")

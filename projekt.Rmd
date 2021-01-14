@@ -25,7 +25,7 @@ source("lib/rstudio.r", encoding="UTF-8")
 
 Opazovali bomo 10 borznih indeksov v letu 2020 in analizirali njihovo odvisnost.
 
-![](slike/two-growth-stocks-to-buy-now.png)
+![](slike/two-growth-stocks-to-buy-now.png){width=50%}
 
 ***
 
@@ -35,7 +35,7 @@ Opazovali bomo 10 borznih indeksov v letu 2020 in analizirali njihovo odvisnost.
 source("uvoz/uvoz.r", encoding="UTF-8")
 ```
 
-Uvozili smo 10 tabel s podatki za posamezno borzo. Podatki so v obliki csv, prenešeni iz spletne strani Yahoo Finance. 
+Uvozili smo 10 tabel s podatki za posamezno borzo. Podatki so v obliki csv, prenešeni iz spletne strani Yahoo Finance. Tabelo z informacijami o borzah pa smo uvozili v obliki HTML iz Wikipedije.
 
 1. **TABELE POSAMEZNIH  BORZ**
   - `Date` - Datum opravljenih meritev (meritve so opravljene od 1. 1. 2020 tedensko) - tip podatka: date,
@@ -77,7 +77,18 @@ Lahko vidimo,da te podatki še niso v obliki *tidy data*. V takšno obliko jih b
 #source("vizualizacija/vizualizacija.r", encoding="UTF-8")
 ```
 
-Spodnji zemljevid prikazuje povprečno velikost družine za vsako občino.
+Na spodnjem grafu lahko vidimo rast indeksov skozi prejšnje leto. Večino časa se gibljejo razmeroma podobno. Zelo hitro lahko opazimo največji padec v mesecu marcu, ki ga je povzročil prvi val koronavirusa. Vidimo lahko tudi, da se je  indeks zelo hitro pobral in celo močno narastel nad vrednost pred krizo. Ponoven padec lahko vidimo v septembru in novembru, ko je prišel drugi val virusa. Prav tako so se indeksi zelo hitro povzpeli nazaj na vrednosti po prvem valu.
+
+```{r}
+ggplot(data=skupnaTabela %>% filter(Measurement_Type == "Growth", Name %in% c("NYSE", "NASDAQ", "N225", "FTSE", "SSE", "AEX", "TSX",  "DAX", "ASX", "IBOVESPA")), aes(x=Date, y=Measurement, color=Name)) + geom_line()
+```
+```{r}
+ggplot(data=skupnaTabela %>% filter(Measurement_Type %in% c("Open", "High", "Low"), Name == "NYSE"), aes(x=Date, y=Measurement, fill = Measurement_Type)) + geom_col(position = "dodge") + 
+   coord_flip() +
+   theme(legend.position = "top")
+
+```
+ 
 
 ```{r zemljevid, fig.align='center', fig.cap='Zemljevid povprečnega števila otrok v družini'}
 #tm_shape(merge(zemljevid, povprecja, by.x="OB_UIME", by.y="obcina")) +
@@ -93,7 +104,6 @@ Spodnji zemljevid prikazuje povprečno velikost družine za vsako občino.
 #source("analiza/analiza.r", encoding="UTF-8")
 ```
 
-Spodnji graf prikazuje povezavo med številom naselij in površino občine.
 
 ```{r graf, fig.align='center', fig.cap='Povezava med številom naselij in površino občine'}
 #ggplot(inner_join(obcine, data.frame(obcina=names(skupine),
