@@ -120,6 +120,7 @@ cplot <- ggplot(zemljevid_rasti, aes(x =long,y= lat, group = group, fill=Measure
 
 cplot
 ```
+Na naslednjem grafu pa lahko vidimo hiter obrat delniških trgov v mesecu aprilu. Tokrat lahko vidimo veliko rast indeksov, ki je tokrat največja v državah zahodnega sveta. Rast je tudi na ostalih koncih sveta močno pozitivna. Največje razlike v rasti indeksov lahko najdemo na borzah Južne Amerike in Avstralije, ki jih je marac najbolj prizadel, se pa lahko po rasti v aprilu primerjajo z brozami v Evropi.
 
 ```{r}
 Mapa_sveta <- map_data("world") %>% select(c(1:5))
