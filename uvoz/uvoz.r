@@ -16,6 +16,44 @@ uvozi.indekse <- function(tabelaIndeksov, kraticaBorze) {
   return(data)
 }
 
+
+uvozi.borze <- function() {
+  url <- "https://en.wikipedia.org/wiki/List_of_stock_exchanges"
+  stran <- read_html(url)
+  html_tabela <- stran %>%
+    html_nodes(xpath="//table[@class='wikitable sortable']") %>% .[[1]]
+  tabela <- html_tabela %>% html_table(dec=".", fill = TRUE)
+  for (i in 1:ncol(tabela)) {
+    if (is.character(tabela[[i]])) {
+      Encoding(tabela[[i]]) <- "UTF-8"
+    }
+  }
+  
+  
+  colnames(tabela) <- c("1", "2", "Borza","Simbol", "Drzava", "Kraj",
+                        "Market_cap", "Monthly_volume",
+                        "3", "4", "5", "6", "7",
+                        "8", "9", "10")
+  
+  #Izbira pravilnih podatkov
+  tabela <- tabela %>% select(3, 4, 5, 6, 7, 8) %>% slice(c(1, 2, 3, 4, 5, 7, 8, 12, 24, 26))
+  #tabela
+  vrstice <- html_tabela %>% html_nodes(xpath=".//tr") %>% .[-1]
+  borze <- vrstice %>% html_nodes(xpath="./td[3]") %>% html_text()
+  kraji <- vrstice[1:14] %>% html_nodes(xpath="./td[6]") %>% lapply(. %>% html_nodes(xpath="./a") %>% html_text())
+  borze.kraji <- data.frame(borza=lapply(1:length(kraji),
+                                         . %>% { rep(borze[.], length(kraji[[.]])) }) %>% unlist(),
+                            kraj=unlist(kraji))
+
+  tabela$Market_cap <- as.numeric(gsub(",",".",tabela$Market_cap))
+  tabela$Monthly_volume <- as.numeric(gsub(",",".",tabela$Monthly_volume))
+  
+  return(tabela)
+  
+}
+
+seznamBorz <- uvozi.borze()
+
 TSX <- uvozi.indekse("podatki/S&P-TSX Composite index.csv", "TSX")
 NYSE <- uvozi.indekse("podatki/NYSE Composite.csv", "NYSE")
 NASDAQ <- uvozi.indekse("podatki/NASDAQ Composite.csv", "NASDAQ")

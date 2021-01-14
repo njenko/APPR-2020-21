@@ -35,7 +35,7 @@ Viri podatkov:
   * AEX(Amsterdam, Netherlands): https://finance.yahoo.com/quote/^AEX?p=^AEX&.tsrc=fin-srch
   * SSE(Shanghai, China): https://finance.yahoo.com/quote/000001.SS/history?p=000001.SS
   * IBOVESPA(Sao Paolo, Brasil): https://finance.yahoo.com/quote/^BVSP?p=^BVSP&.tsrc=fin-srch
-  * N225(Osaka, Japan): https://finance.yahoo.com/quote/^N225?p=^N225&.tsrc=fin-srch
+  * N225(Tokyo, Japan): https://finance.yahoo.com/quote/^N225?p=^N225&.tsrc=fin-srch
   * ASX(Sidney, Australia): https://finance.yahoo.com/quote/%5EAXJO/history?p=%5EAXJO
   * FTSE 250(London, United Kingdom): https://finance.yahoo.com/quote/%5EFTMC%3FP%3D%5EFTMC/history/
   

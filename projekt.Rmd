@@ -55,18 +55,15 @@ Lahko vidimo,da te podatki še niso v obliki *tidy data*. V takšno obliko jih b
  - `Measurement_type`- Nam pove katera meritev je prikazana v zadnji vrstici tabele - tip podatka: character,
  - `Measurement` - Meritev - tip podatka: numeric.
 
-3. `obcine` - podatki o občinah
-  - `obcina` - spremenljivka: ime občine (neurejen faktor),
-  - `povrsina` - meritev: površina občine v km$^2$ (število),
-  - `prebivalci` - meritev: prebivalstvo občine (število),
-  - `gostota` - meritev: število prebivalcev na km$^2$ (število),
-  - `naselja` - meritev: število naselij v občini (število),
-  - `ustanovitev` - meritev: leto ustanovitve občine (število),
-  - `pokrajina` - meritev: pokrajina, ki ji občina pripada (neurejen faktor),
-  - `regija` - meritev: regija, ki ji občina pripada (neurejen faktor),
-  - `odcepitev` - meritev: podatki o občinah, od katerih se je občina odcepila (besedilo).
+3. **TABELA Z INFORMACIJAMI  O BORZAH**
+  - `Borza` - Polno ime borze - tip podatka: character,
+  - `Simbol` - Oznaka borze, ki jo kasneje uporabljam za povezavo med tabelama - tip podatka: character,
+  - `Drzava` - Država, kjer je sedež borze - tip podatka: character,
+  - `Kraj` - Kraj, kjer je sedež borze - tip podatka: character,
+  - `Market_cap` - meritev: število naselij v občini (število),
+  - `Monthly_volume` - meritev: leto ustanovitve občine (število),
+  
 
-**Opomba**: da bi razpredelnica `obcine` res bila v obliki *tidy data*, bi morali odstraniti stolpec `gostota` (saj je izpeljan iz stolpcev `povrsina` in `prebivalci`), podatke o pokrajinah pa bi morali premakniti v drugo razpredelnico, saj nekatere občine pripadajo dvema pokrajinama. Podobno bi morali narediti tudi s stolpcem `odcepitev`.
 
 Spodnji graf prikazuje porazdelitev števila naselij v občinah.
 
