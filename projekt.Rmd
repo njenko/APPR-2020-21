@@ -115,7 +115,7 @@ svetovna_rast$region <- gsub("United States", "USA", svetovna_rast$region)
 cplot <- ggplot(zemljevid_rasti, aes(x =long,y= lat, group = group, fill=Measurement))+  
   geom_polygon(color="white") + 
   theme_void() + coord_equal() + labs(fill="Growth") + 
-  theme(legend.position="bottom")
+  theme(legend.position="bottom") + ggtitle("Rast indeksov v marcu") + labs(fill = "Rast [%]")
 
 
 cplot
@@ -133,7 +133,7 @@ svetovna_rast$region <- gsub("United States", "USA", svetovna_rast$region)
 cplot <- ggplot(zemljevid_rasti, aes(x =long,y= lat, group = group, fill=Measurement))+  
   geom_polygon(color="white") + 
   theme_void() + coord_equal() + labs(fill="Growth") + 
-  theme(legend.position="bottom")
+  theme(legend.position="bottom")  + ggtitle("Rast indeksov v aprilu") + labs(fill = "Rast [%]")
 
 
 cplot
